@@ -27,10 +27,10 @@ router.get("/", requireLogin, async (req, res) => {
     }
 
     // Fetch user investments
-    const investments =
-      await Investment.find({
-        userId: req.user._id,
-      });
+    const investments = await Investment.find({
+      userId: req.user._id,
+      type: "coin"
+    });
 
     let investedValue = 0;
     let currentValue = 0;
@@ -71,9 +71,8 @@ router.get("/", requireLogin, async (req, res) => {
 
         returnValue: returns,
 
-        returnText: `${
-          returns >= 0 ? "+" : "-"
-        }₹${Math.abs(returns).toFixed(2)}`,
+        returnText: `${returns >= 0 ? "+" : "-"
+          }₹${Math.abs(returns).toFixed(2)}`,
 
         returnPercent: `${returnPercent}%`,
 
@@ -100,9 +99,8 @@ router.get("/", requireLogin, async (req, res) => {
 
         totalReturn,
 
-        totalReturnText: `${
-          totalReturn >= 0 ? "+" : "-"
-        }₹${Math.abs(totalReturn).toFixed(2)}`,
+        totalReturnText: `${totalReturn >= 0 ? "+" : "-"
+          }₹${Math.abs(totalReturn).toFixed(2)}`,
       },
 
       holdings,

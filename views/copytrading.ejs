@@ -1,0 +1,129 @@
+<%- include('partials/header', { title: "CryptoVista - CopyTrading" }) %>
+    <link rel="stylesheet" href="/css/copytrading.css">
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="/images/Cryptovistalogo.png" alt="logo">
+            <span class="logo-text">CryptoVista</span>
+        </a>
+
+        <div class="nav-right">
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+            </div>
+        </div>
+    </nav>
+
+    <!-- MENU -->
+    <div class="menu">
+        <a href="/explore">Explore</a>
+        <a href="/holdings">Holdings</a>
+        <a href="/watchlist">Watchlist</a>
+        <a href="/copytrading">Copy Trading</a>
+        <a href="/buycrypto">Buy Crypto</a>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="container">
+
+        <h2 class="title">Top Traders to Copy</h2>
+
+        <div class="cards">
+
+            <% traders.forEach(trader=> { %>
+                <div class="card">
+                    <h3>
+                        <%= trader.name %>
+                    </h3>
+
+                    <p class="green">
+                        Profit (30D): +<%= trader.profit30d %>%
+                    </p>
+
+                    <p>
+                        Followers: <%= trader.followers.toLocaleString("en-IN") %>
+                    </p>
+
+                    <p class="<%= trader.riskLevel === 'Low' ? 'green' : 'red' %>">
+                        Risk Level: <%= trader.riskLevel %>
+                    </p>
+
+                    <p>
+                        Win Rate: <%= trader.winRate %>%
+                    </p>
+
+                    <p>
+                        Min Copy: ₹<%= trader.minimumCopyAmount %>
+                    </p>
+
+                    <p>
+                        Strategy: <%= trader.strategy %>
+                    </p>
+
+                    <% if (copiedTraderIds.includes(trader._id.toString())) { %>
+                        <button class="copy-btn copied" disabled>
+                            Copied
+                        </button>
+                        <% } else { %>
+                            <form action="/copytrading/copy/<%= trader._id %>" method="POST" class="copy-form">
+                                <input type="number" name="copyAmount" min="<%= trader.minimumCopyAmount %>"
+                                    placeholder="Amount ₹" required>
+
+                                <button class="copy-btn" type="submit">
+                                    Copy Now
+                                </button>
+                            </form>
+                            <% } %>
+                </div>
+                <% }) %>
+
+                    <% if (traders.length===0) { %>
+                        <p>No traders available yet.</p>
+                        <% } %>
+
+
+        </div>
+
+        <% if (copiedInvestments.length> 0) { %>
+            <h2 class="title copied-title">My Copied Traders</h2>
+
+            <div class="copied-table">
+                <div class="copied-header">
+                    <div>Trader</div>
+                    <div>Amount</div>
+                    <div>Current Value</div>
+                    <div>Profit</div>
+                    <div>Status</div>
+                    <div>Action</div>
+                </div>
+
+                <% copiedInvestments.forEach(investment=> { %>
+                    <div class="copied-row">
+                        <div>
+                            <%= investment.traderId.name %>
+                        </div>
+                        <div>₹<%= investment.copyAmount.toFixed(2) %>
+                        </div>
+                        <div>₹<%= investment.currentValue.toFixed(2) %>
+                        </div>
+                        <div class="<%= investment.currentValue >= investment.copyAmount ? 'green' : 'red' %>">
+                            ₹<%= (investment.currentValue - investment.copyAmount).toFixed(2) %>
+                                (<%= investment.profitPercent %>%)
+                        </div>
+                        <div>
+                            <%= investment.status %>
+                        </div>
+                        <div>
+                            <form action="/copytrading/stop/<%= investment._id %>" method="POST">
+                                <button type="submit" class="stop-btn">Stop</button>
+                            </form>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+            <% } %>
+
+
+
+    </div>
+    <script src="/js/copytrading.js"></script>
+    <%- include('partials/footer') %>

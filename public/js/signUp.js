@@ -1,80 +1,76 @@
 
 
-function signup(){
+async function signup() {
 
-let name=document.getElementById("name").value.trim();
-let email=document.getElementById("email").value.trim();
-let password=document.getElementById("password").value.trim();
-let confirmPassword=document.getElementById("confirmPassword").value.trim();
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+    let confirmPassword = document.getElementById("confirmPassword").value.trim();
 
-let emailPattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-/* name validation */
+    /* name validation */
 
-if(name===""){
-alert("Please enter your name");
-return;
-}
+    if (name === "") {
+        alert("Please enter your name");
+        return;
+    }
 
-/* email validation */
+    /* email validation */
 
-if(email===""){
-alert("Please enter your email");
-return;
-}
+    if (email === "") {
+        alert("Please enter your email");
+        return;
+    }
 
-if(!email.match(emailPattern)){
-alert("Please enter a valid email address");
-return;
-}
+    if (!email.match(emailPattern)) {
+        alert("Please enter a valid email address");
+        return;
+    }
 
-/* password validation */
+    /* password validation */
 
-if(password===""){
-alert("Please enter a password");
-return;
-}
+    if (password === "") {
+        alert("Please enter a password");
+        return;
+    }
 
-if(password.length<6){
-alert("Password must be at least 6 characters");
-return;
-}
+    if (password.length < 6) {
+        alert("Password must be at least 6 characters");
+        return;
+    }
 
-/* confirm password */
+    /* confirm password */
 
-if(confirmPassword===""){
-alert("Please confirm your password");
-return;
-}
+    if (confirmPassword === "") {
+        alert("Please confirm your password");
+        return;
+    }
 
-if(password!==confirmPassword){
-alert("Passwords do not match");
-return;
-}
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+    }
 
-/* check existing user */
+    try {
+        const res = await fetch("http://localhost:8010/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password , confirmPassword}),
+        });
 
-let existingUser=localStorage.getItem("cryptovistaUser");
+        const data = await res.json();
 
-if(existingUser){
-alert("Account already exists. Please login.");
-window.location.href="/login";
-return;
-}
-
-/* store user */
-
-let user={
-name:name,
-email:email,
-password:password
-};
-
-localStorage.setItem("cryptovistaUser",JSON.stringify(user));
-
-alert("Account created successfully!");
-
-window.location.href="/login";
+        if(res.ok) {
+            alert("Signup successfully");
+            window.location.href = "/login";
+        } else {
+            alert(data.error || "Invalid email or password");
+        }
+    } catch(err) {
+        console.error(err);
+        alert("Server error");
+    }
 
 }
 

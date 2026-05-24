@@ -1,6 +1,8 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
+const User = require("../models/User");
+const Investment = require("../models/Investment");
 
 const exploreRoutes = require("./exploreRoutes");
 const holdingsRoutes = require("./holdingRoutes");
@@ -10,11 +12,12 @@ const loginRoutes = require("./loginRoutes");
 const buyCryptoRoutes = require("./buyCryptoRoutes");
 const endPageRoutes = require("./endPageRoutes");
 const signupRoutes = require("./signupRoutes");
-
+const logoutRoutes = require("./loginRoutes");
+const buyRoutes = require("./buyRoutes");
 // Home route
 router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../views", "index.html"));
-})
+  res.render("index");
+});
 
 router.use("/explore", exploreRoutes);
 router.use("/holdings", holdingsRoutes);
@@ -24,6 +27,8 @@ router.use("/login", loginRoutes);
 router.use("/buycrypto", buyCryptoRoutes);
 router.use("/endpage", endPageRoutes);
 router.use("/signup", signupRoutes);
+router.use("/logout", logoutRoutes);
+router.use("/buy", buyRoutes);
 
 
 router.get("/error-test", (req, res, next) => {

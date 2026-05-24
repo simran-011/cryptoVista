@@ -1,7 +1,14 @@
-function logout() {
-    localStorage.removeItem("cryptovistaUser");
+async function logout() {
+    await fetch("/logout", {
+        method: "POST",
+        credentials: "include"
+    });
+
+    // Passport route already redirects to /login,
+    // but if you want to force it client-side:
     window.location.href = "/login";
 }
+
 
 // Fetch live crypto prices in INR from backend
 async function fetchLivePrices() {

@@ -1,0 +1,107 @@
+<%- include('partials/header', { title: "CryptoVista - Explore" }) %>
+<link rel="stylesheet" href="/css/explore.css">
+<!-- Navbar -->
+<nav class="navbar">
+    <a href="/" class="logo">
+        <img src="/images/Cryptovistalogo.png" alt="logo">
+        <span class="logo-text">CryptoVista</span>
+    </a>
+
+    <div class="nav-right">
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+        </div>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</nav>
+
+<!-- MENU -->
+<div class="menu">
+    <a href="/explore">Explore</a>
+    <a href="/holdings">Holdings</a>
+    <a href="/watchlist">Watchlist</a>
+    <a href="/copytrading">Copy Trading</a>
+    <a href="/buycrypto">Buy Crypto</a>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+    <div>
+
+        <h2 class="section-title">Most traded coins on CryptoVista</h2>
+
+        <div class="coin-grid">
+            <% coins.forEach(coin => { %>
+                <div class="coin-card">
+                    <img src="<%= coin.image %>" alt="logo">
+                    <div><%= coin.name %> (<%= coin.symbol %>)</div>
+                    <div class="price"><%= coin.price %></div>
+                    <div class="<%= coin.change >= 0 ? 'green' : 'red' %>">
+                        <%= coin.change %>%
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <h2 class="section-title" style="margin-top:40px;">Coins in news today</h2>
+
+        <div class="news-grid">
+            <% news.forEach(item => { %>
+                <div class="news-card">
+                    <div class="news-title"><%= item.title %></div>
+                    <%= item.desc %>
+                    <div class="news-time"><%= item.time %></div>
+                </div>
+            <% }) %>
+        </div>
+
+    </div>
+
+    <div>
+
+        <div class="invest-box">
+            <h3>Your investments</h3>
+
+            <div class="invest-value"><%= investments.total %></div>
+
+            <div>
+                1D returns 
+                <span class="<%= investments.dayReturn >= 0 ? 'green' : 'red' %>">
+                    <%= investments.dayReturnText %>
+                </span>
+            </div>
+            <br>
+
+            <div>
+                Total returns 
+                <span class="<%= investments.totalReturn >= 0 ? 'green' : 'red' %>">
+                    <%= investments.totalReturnText %>
+                </span>
+            </div>
+            <br>
+
+            <div>Invested <%= investments.invested %></div>
+        </div>
+
+        <div class="trading-box">
+            <h3>Trading Screens</h3>
+            <br>
+
+            <% trading.forEach(t => { %>
+                <div>
+                    <span class="badge <%= t.type === 'Bearish' ? 'bearish' : '' %>">
+                        <%= t.type %>
+                    </span>
+                    <%= t.text %>
+                </div>
+                <br>
+            <% }) %>
+        </div>
+
+    </div>
+
+</div>
+<script src="/js/explore.js"></script>
+<%- include('partials/footer') %>

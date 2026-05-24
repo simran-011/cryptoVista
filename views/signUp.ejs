@@ -1,0 +1,40 @@
+<%- include('partials/header', { title: "CryptoVista - Sign Up" }) %>
+    <link rel="stylesheet" href="/css/signUp.css">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+            <img src="/images/Cryptovistalogo.png" alt="logo">
+            <span class="logo-text">CryptoVista</span>
+        </a>
+
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+        </div>
+
+    </nav>
+
+    <!-- SIGNUP -->
+    <div class="signup-wrapper">
+
+        <div class="signup-card">
+
+            <h2>Create Account</h2>
+
+            <input type="text" id="name" placeholder="Full Name">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+            <button onclick="signup()">Sign Up</button>
+
+            <div class="toggle">
+                Already have an account?
+                <a href="/login">Login</a>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="/js/signUp.js"></script>
+    <%- include('partials/footer') %>

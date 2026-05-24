@@ -1,0 +1,32 @@
+<%- include('partials/header', { title: "CryptoVista - Login" }) %>
+    <link rel="stylesheet" href="/css/login.css">
+
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="/images/Cryptovistalogo.png" alt="logo">
+            <span class="logo-text">CryptoVista</span>
+        </a>
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+        </div>
+    </nav>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <h2>Welcome Back</h2>
+
+            <!-- Passport expects a form POST -->
+            <form action="/login" method="POST">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="toggle">
+                Don't have an account?
+                <span onclick="window.location.href='/signup'">Sign Up</span>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

@@ -1,0 +1,118 @@
+<%- include('partials/header', { title: "CryptoVista - Holdings" }) %>
+<link rel="stylesheet" href="/css/holdings.css">
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="/" class="logo">
+        <img src="/images/Cryptovistalogo.png" alt="logo">
+        <span class="logo-text">CryptoVista</span>
+    </a>
+
+    <div class="nav-right">
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+        </div>
+    </div>
+</nav>
+
+<!-- MENU -->
+<div class="menu">
+    <a href="/explore">Explore</a>
+    <a href="/holdings">Holdings</a>
+    <a href="/watchlist">Watchlist</a>
+    <a href="/copytrading">Copy Trading</a>
+    <a href="/buycrypto">Buy Crypto</a>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="container">
+
+    <h2 style="margin-bottom:20px;">
+        Holdings (<%= holdings.length %>)
+    </h2>
+
+    <!-- SUMMARY -->
+    <div class="summary">
+
+        <div class="summary-top">
+            <div>
+                <div>Current value</div>
+                <div class="summary-value"><%= summary.currentValue %></div>
+            </div>
+
+            <button style="background:#1a1a1a;border:none;color:white;padding:10px 20px;border-radius:8px;">
+                Analyse
+            </button>
+        </div>
+
+        <hr style="border:1px solid #222">
+
+        <div class="summary-grid">
+
+            <div>
+                <div>Invested value</div>
+                <div><%= summary.investedValue %></div>
+            </div>
+
+            <div>
+                <div>1D returns</div>
+                <div class="<%= summary.dayReturn >= 0 ? 'green' : 'red' %>">
+                    <%= summary.dayReturnText %>
+                </div>
+            </div>
+
+            <div>
+                <div>Total returns</div>
+                <div class="<%= summary.totalReturn >= 0 ? 'green' : 'red' %>">
+                    <%= summary.totalReturnText %>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- HOLDINGS TABLE -->
+    <div class="table">
+
+        <div class="table-header">
+            <div>Company</div>
+            <div>Market price</div>
+            <div>Returns</div>
+            <div>Current (Invested)</div>
+        </div>
+
+        <% holdings.forEach(item => { %>
+            <div class="row">
+
+                <div>
+                    <div class="company"><%= item.name %></div>
+                    <div class="sub">
+                        <%= item.shares %> shares • Avg. ₹<%= item.avg %>
+                    </div>
+                </div>
+
+                <div>
+                    ₹<%= item.marketPrice %>
+                    <div class="<%= item.change >= 0 ? 'green' : 'red' %>">
+                        <%= item.changeText %>
+                    </div>
+                </div>
+
+                <div class="<%= item.returnValue >= 0 ? 'green' : 'red' %>">
+                    <%= item.returnText %>
+                    <div><%= item.returnPercent %></div>
+                </div>
+
+                <div>
+                    ₹<%= item.currentValue %>
+                    <div class="sub">₹<%= item.investedValue %></div>
+                </div>
+
+            </div>
+        <% }) %>
+
+    </div>
+
+</div>
+<script src="/js/holdings.js"></script>
+<%- include('partials/footer') %>

@@ -1,0 +1,57 @@
+<%- include('partials/header', { title: "CryptoVista - Buy Crypto" }) %>
+    <link rel="stylesheet" href="/css/buyCrypto.css">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="/images/Cryptovistalogo.png" alt="logo">
+            <span class="logo-text">CryptoVista</span>
+        </a>
+
+        <div class="nav-right">
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+            </div>
+        </div>
+    </nav>
+
+    <!-- MENU -->
+    <div class="menu">
+        <a href="/explore">Explore</a>
+        <a href="/holdings">Holdings</a>
+        <a href="/watchlist">Watchlist</a>
+        <a href="/copytrading">Copy Trading</a>
+        <a href="/buycrypto">Buy Crypto</a>
+    </div>
+
+    <!-- PAGE -->
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Buy Cryptocurrency</h2>
+
+            <label>Select Coin</label>
+
+            <select id="coinSelect" onchange="calculateCost()">
+                <% coins.forEach(coin=> { %>
+                    <option value="<%= coin.name %>">
+                        <%= coin.name %> (<%= coin.symbol %>) - $<%= coin.price %>
+                    </option>
+                    <% }) %>
+            </select>
+
+            <label>Enter Quantity</label>
+
+            <input type="number" id="quantity" placeholder="Enter amount" oninput="calculateCost()">
+
+            <div class="total">
+                Total Cost: $<span id="totalCost">0</span>
+            </div>
+
+            <button class="buy-btn" onclick="buyCrypto()">Buy Now</button>
+
+        </div>
+
+    </div>
+    <script src="/js/buyCrypto.js"></script>
+    <%- include('partials/footer') %>

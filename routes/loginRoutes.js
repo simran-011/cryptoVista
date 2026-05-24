@@ -1,9 +1,18 @@
 const express = require("express");
-const path = require("path");
 const router = express.Router();
+const passport = require("passport")
 
 router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../views", "login.html"));
+  res.render("login");
 });
+
+router.post("/",
+  passport.authenticate("local", {
+    successRedirect: "/explore",
+    failureRedirect: "/login",
+    
+  })
+);
+
 
 module.exports = router;

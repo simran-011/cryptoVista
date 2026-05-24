@@ -1,0 +1,31 @@
+<%- include('partials/header', { title: "Cryptovista" }) %>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="/images/Cryptovistalogo.png" alt="logo">
+            <span class="logo-text">CryptoVista</span>
+        </a>
+
+        <div class="nav-right">
+            <div class="search-box">
+                <input type="text" placeholder="Search....">
+            </div>
+
+            <div class="theme-toggle" id="themeToggle">
+                🌙
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Crypto made Easy.</h1>
+        <a href="/login" class="cta-btn">Get started</a>
+
+        <div class="hero-image">
+            <img src="/images/landing.png" alt="crypto illustration">
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>

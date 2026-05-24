@@ -1,0 +1,115 @@
+<%- include('partials/header', { title: "CryptoVista - Watchlist" }) %>
+    <link rel="stylesheet" href="/css/watchlist.css">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+            <img src="/images/Cryptovistalogo.png" alt="logo">
+            <span class="logo-text">CryptoVista</span>
+        </a>
+
+        <div class="nav-right">
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- MENU -->
+    <div class="menu">
+        <a href="/explore">Explore</a>
+        <a href="/holdings">Holdings</a>
+        <a href="/watchlist">Watchlist</a>
+        <a href="/copytrading">Copy Trading</a>
+        <a href="/buycrypto">Buy Crypto</a>
+    </div>
+
+    <!-- PAGE -->
+    <div class="container">
+
+        <div class="watch-header">
+
+            <h2>Watchlist</h2>
+
+            <div class="watch-actions">
+                <button type="button" id="addCoinBtn">+ Add coin</button>
+            </div>
+
+        </div>
+
+        <div class="watch-search">
+            <input type="text" placeholder="Search your watchlist">
+        </div>
+
+        <div class="add-coin-panel" id="addCoinPanel">
+            <form action="/watchlist/add" method="POST">
+                <select name="coinId" required>
+                    <option value="">Select coin</option>
+
+                    <% availableCoins.forEach(coin=> { %>
+                        <option value="<%= coin.coinId %>">
+                            <%= coin.name %> (<%= coin.symbol %>)
+                        </option>
+                        <% }) %>
+                </select>
+
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="table">
+
+            <div class="table-header">
+                <div>Company</div>
+                <div>Mkt price</div>
+                <div>1D change</div>
+                <div>Volume</div>
+                <div>52W perf</div>
+                <div>Action</div>
+            </div>
+
+            <% watchlist.forEach(item=> { %>
+                <div class="row watchlist-row">
+
+                    <div class="coin">
+                        <img src="<%= item.image %>" alt="logo">
+                        <%= item.name %> (<%= item.symbol %>)
+                    </div>
+
+                    <div>₹<%= item.marketPrice %>
+                    </div>
+
+                    <div class="<%= item.change >= 0 ? 'green' : 'red' %>">
+                        <%= item.changeText %>
+                    </div>
+
+                    <div>
+                        <%= item.volume %>
+                    </div>
+
+                    <div>
+                        <%= item.range %>
+                    </div>
+
+                    <div>
+                        <form action="/watchlist/delete/<%= item.coinId %>" method="POST">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </div>
+
+                </div>
+                <% }) %>
+                    <% if (watchlist.length===0) { %>
+                        <div class="empty-watchlist">
+                            No coins added yet.
+                        </div>
+                        <% } %>
+
+        </div>
+
+    </div>
+    <script src="/js/watchlist.js"></script>
+    <%- include('partials/footer') %>

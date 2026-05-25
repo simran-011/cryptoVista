@@ -53,7 +53,7 @@ async function signup() {
     }
 
     try {
-        const res = await fetch("http://localhost:8010/signup", {
+        const res = await fetch("https://cryptovista-1.onrender.com/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password , confirmPassword}),

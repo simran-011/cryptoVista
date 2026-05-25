@@ -1,4 +1,6 @@
-async function login() {
+async function login(event) {
+    event.preventDefault();
+
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
@@ -9,5 +11,9 @@ async function login() {
         credentials: "include"
     });
 
-    // Passport will redirect automatically, so you don’t need to handle res.json()
+    if (res.ok) {
+        window.location.href = "https://cryptovista-1.onrender.com/explore";
+    } else {
+        alert("Invalid email or password");
+    }
 }

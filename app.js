@@ -1,15 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
-const port = 8010;
+const port = process.env.PORT || 8010;
 const app = express();
 const bcrypt = require("bcrypt");
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/cryptoVista')
-  .then(() => console.log('Mongoose Connected!', mongoose.connection.name))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
-
+mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/cryptoVista")
+  .then(() => console.log("Mongoose Connected!", mongoose.connection.name))
+  .catch(err => console.error("MongoDB connection error:", err));
 
 const path = require("path");
 const cors = require("cors");
@@ -29,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(session({
-  secret: "cryptoVistaSecretKey",
+  secret: process.env.SESSION_SECRET || "cryptoVistaSecretKey",
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -105,7 +104,7 @@ async function fetchPrices() {
 
 // Fetch on startup, refresh every 60 seconds (CoinGecko free tier safe)
 fetchPrices();
-setInterval(fetchPrices, 60000);
+setInterval(fetchPrices, 5*60*1000);
 
 app.locals.getCachedPrices = () => cachedPrices;
 // API endpoint serves instantly from cache
